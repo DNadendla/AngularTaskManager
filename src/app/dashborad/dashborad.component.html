@@ -1,0 +1,631 @@
+<!--light dark breadcrumb with options Home and Dashboard -->
+
+<nav aria-label="breadcrumb" class="bg-light p-2 rounded">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item">
+      <a routerLink="/">Home</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+  </ol>
+</nav>
+<div class="p-2">
+  <h5>Dashboard</h5>
+</div>
+<!-- Row with 3-6-3 column structure w.r.to all screens-->
+<div class="row">
+  <div class="col-md-3">
+    <div class="card mb-3" style="background-color: #dbd6d6">
+      <div class="card-body">
+        <div class="row">
+          <div
+            class="text-center mx-auto rounded pt-2 pb-2 fw-bold"
+            style="
+              background-color: #a39e9e;
+              font-family: 'Arial Narrow Bold', sans-serif;
+            "
+          >
+            {{ Designation }}
+          </div>
+
+          <div class="col-12 text-center mt-2">
+            <img src="assets/user.png" width="120px" />
+          </div>
+          <div
+            class="col-12 text-center pt-2 pb-2 font-weight-bold"
+            style="font-family: Tahoma"
+          >
+            {{ Username }}
+          </div>
+          <div class="col-12 text-center pt-2 pb-2" style="font-family: Arial">
+            TEAM SUMMARY
+          </div>
+          <div class="col-12 mb-3">
+            <ul class="list-group">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                NO. OF TEAM MEMBERS
+                <span
+                  class="badge bg-primary rounded-pill"
+                  style="font-size: 13px"
+                >
+                  {{ NoOfTeamMembers }}
+                </span>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                TOTAL COST OF ALL PROJECTS
+                <span
+                  class="badge bg-primary rounded-pill"
+                  style="font-size: 13px"
+                  >$ {{ TotalCostOfAllProjects }} k</span
+                >
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                PENDING TASKS
+                <span
+                  class="badge bg-primary rounded-pill"
+                  style="font-size: 13px"
+                  >{{ PendingTasks }}</span
+                >
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                UPCOMING PROJECTS
+                <span
+                  class="badge bg-primary rounded-pill"
+                  style="font-size: 13px"
+                  >{{ UpcomingTasks }}</span
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-12 text-center pt-2 pb-2" style="font-family: Arial">
+            Clients
+          </div>
+          <div class="col-12 mb-3">
+            <ul class="list-group">
+              <li
+                *ngFor="let client of Clients"
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                {{ client }}
+              </li>
+            </ul>
+            <!-- <ul class="list-group">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                ABC Clients
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                DEF Clients
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                GHI Clients
+              </li>
+            </ul> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card mb-3" style="background-color: #dbd6d6">
+      <div class="card-body">
+        <!-- inside a bootstrap container row create a div with left side one drop down at extream left with project options and extream right with years options -->
+        <div class="row">
+          <div class="col-4 text-right p-0">
+            <select class="form-select" aria-label="Project Options">
+              <option selected>Choose Project</option>
+              <!-- <option value="1">Project A</option>
+              <option value="2">Project B</option>
+              <option value="3">Project C</option> -->
+              <option *ngFor="let project of Projects">
+                {{ project }}
+              </option>
+            </select>
+          </div>
+          <div class="col-4 text-right p-0"></div>
+          <div class="col-4 text-end p-0">
+            <select class="form-select" aria-label="Year Options">
+              <option selected>Choose Year</option>
+              <!-- <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option> -->
+              <option *ngFor="let year of Years">
+                {{ year }}
+              </option>
+            </select>
+          </div>
+
+          <div
+            class="text-center mx-auto rounded mt-2 pt-2 pb-2 fw-bold"
+            style="
+              background-color: #a39e9e;
+              font-family: 'Arial Narrow Bold', sans-serif;
+            "
+          >
+            Project Briefing
+          </div>
+          <div class="col-12">
+            <table class="table table-borderless">
+              <tr>
+                <td>Project Cost</td>
+                <td>${{ ProjectCost }}</td>
+              </tr>
+              <tr>
+                <td>Current Expendeture</td>
+                <td>${{ CurrentExpenditure }}</td>
+              </tr>
+              <tr>
+                <td>Avaiable Funds</td>
+                <td>${{ AvailableFunds }}</td>
+              </tr>
+            </table>
+          </div>
+          <div
+            class="text-center mx-auto rounded mt-2 pt-2 pb-2 fw-bold"
+            style="
+              background-color: #a39e9e;
+              font-family: 'Arial Narrow Bold', sans-serif;
+            "
+          >
+            Team Mebmers Summary
+          </div>
+          <div class="col-12 mt-2 rounded">
+            <!-- <table class="table">
+              <tr>
+                <th>Region</th>
+                <th>Team Members Count</th>
+                <th>Temporarily Available Members</th>
+              </tr>
+
+              <tr>
+                <td>East</td>
+                <td>20</td>
+                <td>20</td>
+              </tr>
+            </table> -->
+            <table
+              class="table mt-2 table-striped table-bordered table-hover align-middle"
+            >
+              <thead class="table-secondary">
+                <tr>
+                  <th>Region</th>
+                  <th>Team Members Count</th>
+                  <th>Temporarily Available Members</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let TeamMemberSummary of TeamMembersSummary">
+                  <td>{{ TeamMemberSummary.Region }}</td>
+                  <td>{{ TeamMemberSummary.TeamMembersCount }}</td>
+                  <td>{{ TeamMemberSummary.TemparorilyUnavailableMembers }}</td>
+                </tr>
+                <!-- <tr>
+                  <td>East</td>
+                  <td>20</td>
+                  <td>20</td>
+                </tr>
+                <tr>
+                  <td>West</td>
+                  <td>20</td>
+                  <td>20</td>
+                </tr>
+                <tr>
+                  <td>North</td>
+                  <td>20</td>
+                  <td>20</td>
+                </tr>
+                <tr>
+                  <td>South</td>
+                  <td>20</td>
+                  <td>20</td>
+                </tr> -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card mb-3" style="background-color: #dbd6d6">
+      <div class="card-body">
+        <div class="row">
+          <div
+            class="text-center mx-auto rounded pt-2 pb-2 fw-bold"
+            style="
+              background-color: #a39e9e;
+              font-family: 'Arial Narrow Bold', sans-serif;
+            "
+          >
+            Team Members
+          </div>
+
+          <!-- <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                >
+                  Accordion Item #1
+                </button>
+              </h2>
+              <div
+                id="collapseOne"
+                class="accordion-collapse collapse show"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <strong>This is the first item’s accordion body.</strong> It
+                  is shown by default, until the collapse plugin adds the
+                  appropriate classes that we use to style each element. These
+                  classes control the overall appearance, as well as the showing
+                  and hiding via CSS transitions. You can modify any of this
+                  with custom CSS or overriding our default variables. It’s also
+                  worth noting that just about any HTML can go within the
+                  <code>.accordion-body</code>, though the transition does limit
+                  overflow.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo"
+                  aria-expanded="false"
+                  aria-controls="collapseTwo"
+                >
+                  Accordion Item #2
+                </button>
+              </h2>
+              <div
+                id="collapseTwo"
+                class="accordion-collapse collapse"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <strong>This is the second item’s accordion body.</strong> It
+                  is hidden by default, until the collapse plugin adds the
+                  appropriate classes that we use to style each element. These
+                  classes control the overall appearance, as well as the showing
+                  and hiding via CSS transitions. You can modify any of this
+                  with custom CSS or overriding our default variables. It’s also
+                  worth noting that just about any HTML can go within the
+                  <code>.accordion-body</code>, though the transition does limit
+                  overflow.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseThree"
+                  aria-expanded="false"
+                  aria-controls="collapseThree"
+                >
+                  Accordion Item #3
+                </button>
+              </h2>
+              <div
+                id="collapseThree"
+                class="accordion-collapse collapse"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <strong>This is the third item’s accordion body.</strong> It
+                  is hidden by default, until the collapse plugin adds the
+                  appropriate classes that we use to style each element. These
+                  classes control the overall appearance, as well as the showing
+                  and hiding via CSS transitions. You can modify any of this
+                  with custom CSS or overriding our default variables. It’s also
+                  worth noting that just about any HTML can go within the
+                  <code>.accordion-body</code>, though the transition does limit
+                  overflow.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseFour"
+                  aria-expanded="false"
+                  aria-controls="collapseFour"
+                >
+                  Accordion Item #4
+                </button>
+              </h2>
+              <div
+                id="collapseFour"
+                class="accordion-collapse collapse"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <strong>This is the third item’s accordion body.</strong> It
+                  is hidden by default, until the collapse plugin adds the
+                  appropriate classes that we use to style each element. These
+                  classes control the overall appearance, as well as the showing
+                  and hiding via CSS transitions. You can modify any of this
+                  with custom CSS or overriding our default variables. It’s also
+                  worth noting that just about any HTML can go within the
+                  <code>.accordion-body</code>, though the transition does limit
+                  overflow.
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <div class="accordion mt-2" id="accordionExample">
+            <div
+              class="accordion-item"
+              *ngFor="let TeamMember of TeamMembers; let i = index"
+            >
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  [attr.data-bs-target]="'#collapse' + i"
+                  aria-expanded="false"
+                  [attr.aria-controls]="'collapse' + i"
+                >
+                  {{ TeamMember.Region }}
+                </button>
+              </h2>
+              <div
+                [id]="'collapse' + i"
+                class="accordion-collapse collapse"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <div class="table-responsive rounded shadow-sm">
+                    <table
+                      class="table table-hover table-striped align-middle mb-0"
+                    >
+                      <thead class="table-primary">
+                        <tr>
+                          <th class="text-center">ID</th>
+                          <th class="text-center">Name</th>
+                          <th class="text-center">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let Member of TeamMember.Members">
+                          <td class="text-center">{{ Member.ID }}</td>
+                          <td class="text-center">{{ Member.Name }}</td>
+                          <td class="text-center">
+                            <i class="bi bi-person-x-fill text-danger"></i>
+                            {{ Member.Status }}
+                          </td>
+                        </tr>
+                        <!-- <tr>
+                          <td class="text-center">1</td>
+                          <td class="text-center">Jones</td>
+                          <td class="text-center">
+                            <i class="bi bi-person-x-fill text-danger"></i> Busy
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="text-center fw-semibold">
+                            <span class="badge bg-success px-3 py-2"
+                              >Row 2 Col 1</span
+                            >
+                          </td>
+                          <td class="text-center">Row 2 Col 2</td>
+                          <td class="text-center">Row 2 Col 3</td>
+                        </tr> -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Accordion Item #1 -->
+            <!-- <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                >
+                  East
+                </button>
+              </h2>
+              <div
+                id="collapseOne"
+                class="accordion-collapse collapse show"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <div class="table-responsive rounded shadow-sm">
+                    <table
+                      class="table table-hover table-striped align-middle mb-0"
+                    >
+                      <thead class="table-primary">
+                        <tr>
+                          <th class="text-center">ID</th>
+                          <th class="text-center">Name</th>
+                          <th class="text-center">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="text-center">1</td>
+                          <td class="text-center">Jones</td>
+                          <td class="text-center">
+                            <i class="bi bi-person-x-fill text-danger"></i> Busy
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="text-center fw-semibold">
+                            <span class="badge bg-success px-3 py-2"
+                              >Row 2 Col 1</span
+                            >
+                          </td>
+                          <td class="text-center">Row 2 Col 2</td>
+                          <td class="text-center">Row 2 Col 3</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- Accordion Item #2 -->
+            <!-- <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo"
+                  aria-expanded="false"
+                  aria-controls="collapseTwo"
+                >
+                  Accordion Item #2
+                </button>
+              </h2>
+              <div
+                id="collapseTwo"
+                class="accordion-collapse collapse"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <table class="table table-borderless">
+                    <thead>
+                      <tr>
+                        <th>Column A</th>
+                        <th>Column B</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Data A1</td>
+                        <td>Data B1</td>
+                      </tr>
+                      <tr>
+                        <td>Data A2</td>
+                        <td>Data B2</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- Accordion Item #3 -->
+            <!-- <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseThree"
+                  aria-expanded="false"
+                  aria-controls="collapseThree"
+                >
+                  Accordion Item #3
+                </button>
+              </h2>
+              <div
+                id="collapseThree"
+                class="accordion-collapse collapse"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <table class="table table-borderless">
+                    <tbody>
+                      <tr>
+                        <td>Only one column</td>
+                      </tr>
+                      <tr>
+                        <td>Another row</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- Accordion Item #4 -->
+            <!-- <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseFour"
+                  aria-expanded="false"
+                  aria-controls="collapseFour"
+                >
+                  Accordion Item #4
+                </button>
+              </h2>
+              <div
+                id="collapseFour"
+                class="accordion-collapse collapse"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <table class="table table-borderless">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Key 1</td>
+                        <td>Value 1</td>
+                      </tr>
+                      <tr>
+                        <td>Key 2</td>
+                        <td>Value 2</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <!-- <h5 class="card-title">No. of Team Members</h5>
+        <p class="card-text">{{ NoOfTeamMembers }}</p> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- create a div with left side one drop down at extream left with project options and extream right with years options -->
+</div>
