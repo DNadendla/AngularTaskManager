@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DashboardService } from '../../dashboard.service';
 
 @Component({
   selector: 'app-dashborad',
@@ -22,7 +23,7 @@ export class DashboradComponent implements OnInit {
   TeamMembersSummary: any = [];
   TeamMembers: any = [];
 
-  constructor() {}
+  constructor(private dashboardSevice: DashboardService) {}
 
   ngOnInit() {
     this.Designation = 'Team Leader';
@@ -41,28 +42,8 @@ export class DashboradComponent implements OnInit {
       this.Years.push(year);
     }
 
-    this.TeamMembersSummary = [
-      {
-        Region: 'East',
-        TeamMembersCount: 20,
-        TemparorilyUnavailableMembers: 2,
-      },
-      {
-        Region: 'West',
-        TeamMembersCount: 21,
-        TemparorilyUnavailableMembers: 12,
-      },
-      {
-        Region: 'North',
-        TeamMembersCount: 22,
-        TemparorilyUnavailableMembers: 13,
-      },
-      {
-        Region: 'South',
-        TeamMembersCount: 23,
-        TemparorilyUnavailableMembers: 14,
-      },
-    ];
+    this.TeamMembersSummary =
+      this.dashboardSevice.getTeamMemberTeamMemberSummary();
 
     this.TeamMembers = [
       {
@@ -103,5 +84,37 @@ export class DashboradComponent implements OnInit {
         ],
       },
     ];
+  }
+
+  onProjectChange(event: any) {
+    const selectedProject = event.target.value;
+    console.log(selectedProject);
+    switch (selectedProject) {
+      case 'Project A':
+        this.ProjectCost = 500;
+        this.CurrentExpenditure = 200;
+        this.AvailableFunds = 300;
+        break;
+      case 'Project B':
+        this.ProjectCost = 600;
+        this.CurrentExpenditure = 250;
+        this.AvailableFunds = 350;
+        break;
+      case 'Project C':
+        this.ProjectCost = 700;
+        this.CurrentExpenditure = 300;
+        this.AvailableFunds = 400;
+        break;
+      case 'Project D':
+        this.ProjectCost = 800;
+        this.CurrentExpenditure = 350;
+        this.AvailableFunds = 450;
+        break;
+      default:
+        this.ProjectCost = 0;
+        this.CurrentExpenditure = 0;
+        this.AvailableFunds = 0;
+        break;
+    }
   }
 }

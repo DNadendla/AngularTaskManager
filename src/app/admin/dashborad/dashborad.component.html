@@ -24,7 +24,7 @@
               font-family: 'Arial Narrow Bold', sans-serif;
             "
           >
-            {{ Designation }}
+            {{ Designation | uppercase }}
           </div>
 
           <div class="col-12 text-center mt-2">
@@ -34,7 +34,7 @@
             class="col-12 text-center pt-2 pb-2 font-weight-bold"
             style="font-family: Tahoma"
           >
-            {{ Username }}
+            {{ Username | lowercase }}
           </div>
           <div class="col-12 text-center pt-2 pb-2" style="font-family: Arial">
             TEAM SUMMARY
@@ -109,7 +109,11 @@
         <!-- inside a bootstrap container row create a div with left side one drop down at extream left with project options and extream right with years options -->
         <div class="row">
           <div class="col-4 text-right p-0">
-            <select class="form-select" aria-label="Project Options">
+            <select
+              class="form-select"
+              aria-label="Project Options"
+              (change)="onProjectChange($event)"
+            >
               <option selected>Choose Project</option>
 
               <option *ngFor="let project of Projects">
@@ -141,15 +145,15 @@
             <table class="table table-borderless">
               <tr>
                 <td>Project Cost</td>
-                <td>${{ ProjectCost }}</td>
+                <td>{{ ProjectCost | currency : "USD" }}</td>
               </tr>
               <tr>
                 <td>Current Expendeture</td>
-                <td>${{ CurrentExpenditure }}</td>
+                <td>{{ CurrentExpenditure | currency : "USD" }}</td>
               </tr>
               <tr>
                 <td>Avaiable Funds</td>
-                <td>${{ AvailableFunds }}</td>
+                <td>{{ AvailableFunds | currency : "USD" }}</td>
               </tr>
             </table>
           </div>
@@ -186,7 +190,6 @@
       </div>
     </div>
   </div>
-
   <div class="col-md-3">
     <div class="card mb-3" style="background-color: #dbd6d6">
       <div class="card-body">
@@ -206,13 +209,14 @@
               class="accordion-item"
               *ngFor="let TeamMember of TeamMembers; let i = index"
             >
-              <h2 class="accordion-header">
+              <h2 class="accordion-header" id="heading{{ i }}">
                 <button
-                  class="accordion-button collapsed"
+                  class="accordion-button"
+                  [ngClass]="i !== 0 ? 'collapsed' : ''"
                   type="button"
                   data-bs-toggle="collapse"
                   [attr.data-bs-target]="'#collapse' + i"
-                  aria-expanded="false"
+                  [attr.aria-expanded]="i === 0 ? 'true' : 'false'"
                   [attr.aria-controls]="'collapse' + i"
                 >
                   {{ TeamMember.Region }}
@@ -221,6 +225,8 @@
               <div
                 [id]="'collapse' + i"
                 class="accordion-collapse collapse"
+                [ngClass]="i === 0 ? 'show' : ''"
+                [attr.aria-labelledby]="'heading' + i"
                 data-bs-parent="#accordionExample"
               >
                 <div class="accordion-body">
@@ -239,27 +245,24 @@
                         <tr *ngFor="let Member of TeamMember.Members">
                           <td class="text-center">{{ Member.ID }}</td>
                           <td class="text-center">{{ Member.Name }}</td>
-                          <td class="text-center">
-                            <i class="bi bi-person-x-fill text-danger"></i>
+                          <td
+                            class="text-center"
+                            [ngClass]="
+                              Member.Status === 'Busy'
+                                ? 'text-danger'
+                                : 'text-success'
+                            "
+                          >
+                            <i
+                              [ngClass]="
+                                Member.Status === 'Busy'
+                                  ? 'bi bi-person-x-fill text-danger'
+                                  : 'bi bi-person-fill text-success'
+                              "
+                            ></i>
                             {{ Member.Status }}
                           </td>
                         </tr>
-                        <!-- <tr>
-                          <td class="text-center">1</td>
-                          <td class="text-center">Jones</td>
-                          <td class="text-center">
-                            <i class="bi bi-person-x-fill text-danger"></i> Busy
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-center fw-semibold">
-                            <span class="badge bg-success px-3 py-2"
-                              >Row 2 Col 1</span
-                            >
-                          </td>
-                          <td class="text-center">Row 2 Col 2</td>
-                          <td class="text-center">Row 2 Col 3</td>
-                        </tr> -->
                       </tbody>
                     </table>
                   </div>
@@ -274,3 +277,5 @@
 
   <!-- create a div with left side one drop down at extream left with project options and extream right with years options -->
 </div>
+
+<!-- <app-parent></app-parent> -->

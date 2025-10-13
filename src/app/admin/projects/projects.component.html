@@ -1,0 +1,203 @@
+<!-- Add Project Button -->
+<button class="btn btn-primary mb-2 mt-2" (click)="openAddModal()">
+  Add Project
+</button>
+
+<!-- Projects Table -->
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Start Date</th>
+      <th>Team Size</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let project of projects; let i = index">
+      <td>{{ project.projectID }}</td>
+      <td>{{ project.projectName }}</td>
+      <td>{{ project.dateOfStart | date : "mediumDate" }}</td>
+      <td>{{ project.teamSize }}</td>
+      <td>
+        <div class="d-flex justify-content-right gap-2">
+          <button class="btn btn-sm btn-warning" (click)="openEditModal(i)">
+            Edit
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="openDeleteModal(i)">
+            Delete
+          </button>
+        </div>
+      </td>
+      <!-- <td class="text-end align-middle">
+        <div class="d-flex justify-content-right gap-2">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-warning d-inline-flex align-items-center"
+            (click)="openEditModal(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#editProjectModal"
+            title="Edit"
+            aria-label="Edit"
+          >
+            <i class="bi bi-pencil-fill"></i>
+            <span class="d-none d-md-inline ms-1">Edit</span>
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-danger d-inline-flex align-items-center"
+            (click)="openDeleteModal(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteProjectModal"
+            title="Delete"
+            aria-label="Delete"
+          >
+            <i class="bi bi-trash-fill"></i>
+            <span class="d-none d-md-inline ms-1">Delete</span>
+          </button>
+        </div>
+      </td> -->
+    </tr>
+  </tbody>
+</table>
+
+<!-- Add Modal -->
+<div #addProjectModal class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Project</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="addModal.hide()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <input
+            type="number"
+            placeholder="ID"
+            [(ngModel)]="project.projectID"
+            name="id"
+            class="form-control mb-2"
+          />
+          <input
+            type="text"
+            placeholder="Name"
+            [(ngModel)]="project.projectName"
+            name="name"
+            class="form-control mb-2"
+          />
+          <input
+            type="date"
+            placeholder="Start Date"
+            [(ngModel)]="project.dateOfStart"
+            name="date"
+            class="form-control mb-2"
+          />
+          <input
+            type="number"
+            placeholder="Team Size"
+            [(ngModel)]="project.teamSize"
+            name="size"
+            class="form-control mb-2"
+          />
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="saveProject()">Save</button>
+        <button class="btn btn-secondary" (click)="addModal.hide()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div #editProjectModal class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Project</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="editModal.hide()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <input
+            type="number"
+            placeholder="ID"
+            [(ngModel)]="editProject.projectID"
+            name="id"
+            class="form-control mb-2"
+          />
+          <input
+            type="text"
+            placeholder="Name"
+            [(ngModel)]="editProject.projectName"
+            name="name"
+            class="form-control mb-2"
+          />
+          <input
+            type="date"
+            placeholder="Start Date"
+            [(ngModel)]="editProject.dateOfStart"
+            name="date"
+            class="form-control mb-2"
+          />
+          <input
+            type="number"
+            placeholder="Team Size"
+            [(ngModel)]="editProject.teamSize"
+            name="size"
+            class="form-control mb-2"
+          />
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="updateProject()">
+          Update
+        </button>
+        <button class="btn btn-secondary" (click)="editModal.hide()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div #deleteProjectModal class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Delete</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="deleteModal.hide()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete project "{{
+          deleteProject.projectName
+        }}"?
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" (click)="deleteProjectConfirm()">
+          Delete
+        </button>
+        <button class="btn btn-secondary" (click)="deleteModal.hide()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

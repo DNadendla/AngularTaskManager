@@ -1,0 +1,13 @@
+<p>parent works!</p>
+<!-- Step 2: Pass the data using property binding -->
+<!-- [userName] is the child property, user is from parent -->
+<!-- 2 Step 5: Listen to the child's event using Event Binding -->
+<app-child
+  [userName]="user"
+  (messageEvent)="receiveMessage($event)"
+></app-child>
+
+<!-- Step 6: Display the message received -->
+<div class="pb-5">
+  <p *ngIf="messageFromChild">Message from child: {{ messageFromChild }}</p>
+</div>
