@@ -1,0 +1,68 @@
+<!-- bootstrap based login page -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header text-center">
+          <h3>Login</h3>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onLoginClick()" #loginForm="ngForm">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                class="form-control"
+                required
+                [(ngModel)]="loginViewModel.uname"
+                name="username"
+              />
+            </div>
+            <div class="form-group mt-3">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                required
+                [(ngModel)]="loginViewModel.pwd"
+                name="password"
+              />
+            </div>
+            <!-- <div class="text-center">
+              <span>Error Login</span>
+              <button
+                type="submit"
+                class="btn btn-primary btn-block mt-4"
+                [disabled]="!loginForm.form.valid"
+              >
+                Login
+              </button>
+            </div> -->
+
+            <div class="text-center mt-3">
+              <!-- error alert (show only when there is an error) -->
+              <div
+                *ngIf="loginError"
+                class="alert alert-danger py-1 mb-2"
+                role="alert"
+              >
+                {{ loginError }}
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary btn-block w-100 d-flex justify-content-center align-items-center gap-2"
+                [disabled]="!loginForm.form.valid"
+              >
+                <i class="bi bi-box-arrow-in-right d-none d-sm-inline"></i>
+                <span>Login</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
     AboutComponent,
     MyProfileComponent,
     ProjectsComponent,
+
     // ParentComponent,
     // ChildComponent,
   ],

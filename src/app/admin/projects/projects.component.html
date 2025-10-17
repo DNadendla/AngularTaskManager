@@ -1,3 +1,57 @@
+<!-- Test @ViewChild -->
+<!-- Template reference variable -->
+<!-- <div #myModal class="modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content p-3">
+      <h5>Welcome!</h5>
+      <p>This modal is controlled by TypeScript using &#64;ViewChild.</p>
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">
+        Close
+      </button>
+    </div>
+  </div>
+</div> -->
+
+<!-- Trigger buttons -->
+<!-- <button type="button" class="btn btn-primary m-2" (click)="openModal()">
+  Open Modal
+</button> -->
+
+<!-- HTML code to filter data by projectName,dateOfStart,teamSize + a Search text-->
+<div class="row g-2 mb-3 mt-3 align-items-center">
+  <div class="col">
+    <select
+      class="form-select form-select-sm"
+      [(ngModel)]="searchBy"
+      name="searchBy"
+      required
+    >
+      <option value="" disabled selected>Please Select</option>
+      <option value="projectName">Name</option>
+      <option value="dateOfStart">Start Date</option>
+      <option value="teamSize">Team Size</option>
+    </select>
+  </div>
+
+  <div class="col">
+    <input
+      class="form-control form-control-sm"
+      type="text"
+      placeholder="Search..."
+      [(ngModel)]="searchText"
+      (input)="onSearchProjects()"
+      name="searchText"
+      [disabled]="!searchBy"
+    />
+  </div>
+
+  <!-- <div class="col-auto">
+    <button class="btn btn-sm btn-outline-secondary" (click)="searchText = ''">
+      Clear
+    </button>
+  </div> -->
+</div>
+
 <!-- Add Project Button -->
 <button class="btn btn-primary mb-2 mt-2" (click)="openAddModal()">
   Add Project

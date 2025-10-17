@@ -116,6 +116,9 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
   @ViewChild('editProjectModal') editModalRef!: ElementRef;
   @ViewChild('deleteProjectModal') deleteModalRef!: ElementRef;
 
+  /* @ViewChild('myModal') modalRef!: ElementRef;
+  private modalInstance!: Modal; */
+
   // ------------------- Modal instances -------------------
   addModal!: Modal;
   editModal!: Modal;
@@ -128,6 +131,8 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
   editIndex: number | null = null;
   deleteProject: Project = new Project();
   deleteIndex: number | null = null;
+  searchBy: string = '';
+  searchText: string = '';
 
   constructor(private projectService: ProjectsService) {}
 
@@ -135,11 +140,20 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
     this.loadProjects();
   }
 
+  /*   openModal() {
+    this.modalInstance.show(); // opens the modal
+  }
+
+  closeModal() {
+    this.modalInstance.hide(); // closes the modal
+  } */
+
   ngAfterViewInit(): void {
     // Initialize Bootstrap modals after view is ready
     this.addModal = new Modal(this.addModalRef.nativeElement);
     this.editModal = new Modal(this.editModalRef.nativeElement);
     this.deleteModal = new Modal(this.deleteModalRef.nativeElement);
+    // this.modalInstance = new Modal(this.modalRef.nativeElement);
   }
 
   // ------------------- Load Projects -------------------
@@ -199,6 +213,15 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
         this.deleteIndex = null;
         this.deleteProject = new Project();
         this.deleteModal.hide(); // safely hide modal
+      });
+  }
+
+  // ------------------- Search Project -------------------
+  onSearchProjects() {
+    this.projectService
+      .searchProjects(this.searchBy, this.searchText)
+      .subscribe((data: Project[]) => {
+        this.projects = data;
       });
   }
 }

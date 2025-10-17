@@ -28,4 +28,10 @@ export class ProjectsService {
       `${this.baseUrl}/projects?projectID=${projectID}`
     );
   }
+
+  searchProjects(searchBy: string, searchText: string): Observable<Project[]> {
+    return this.httpClint.get<Project[]>(
+      `${this.baseUrl}/projects/search/${searchBy}/${searchText}`
+    );
+  }
 }
