@@ -12,10 +12,4 @@ export class AppComponent {
   title = 'TaskManager';
 
   constructor(public loginService: LoginService, private router: Router) {}
-
-  logout(): void {
-    this.loginService.currentUsername = '';
-    localStorage.setItem('currentUsername', '');
-    this.router.navigate(['/']);
-  }
 }
