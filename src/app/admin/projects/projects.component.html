@@ -142,42 +142,154 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form>
-          <input
-            type="number"
-            placeholder="ID"
-            [(ngModel)]="project.id"
-            name="id"
-            class="form-control mb-2"
-          />
+        <form #projectForm="ngForm" (ngSubmit)="saveProject(projectForm)">
+          <!-- NAME -->
           <input
             type="text"
-            placeholder="Name"
-            [(ngModel)]="project.name"
             name="name"
+            [(ngModel)]="project.name"
+            required
+            minlength="3"
+            #name="ngModel"
+            placeholder="Name"
+            appProjectNameValidator
             class="form-control mb-2"
           />
+
+          <div
+            *ngIf="name.errors?.['required'] && name.touched"
+            class="text-danger"
+          >
+            Name is required.
+          </div>
+
+          <div
+            *ngIf="name.errors?.['minlength'] && name.touched"
+            class="text-danger"
+          >
+            Name must be at least 3 characters.
+          </div>
+
+          <div
+            *ngIf="name.errors?.['invalidProjectName'] && name.touched"
+            class="text-danger"
+          >
+            Test is not allowed
+          </div>
+
+          <!-- Start Date -->
           <input
             type="date"
             placeholder="Start Date"
             [(ngModel)]="project.dateOfStart"
-            name="date"
+            name="dateOfStart"
+            required
+            #date="ngModel"
             class="form-control mb-2"
           />
+
+          <!-- Error Message -->
+          <div
+            *ngIf="date.errors?.['required'] && date.touched"
+            class="text-danger"
+          >
+            Start Date is required.
+          </div>
+
+          <!-- Team Size -->
           <input
             type="number"
             placeholder="Team Size"
             [(ngModel)]="project.teamSize"
-            name="size"
+            name="teamSize"
+            required
+            min="1"
+            #teamSize="ngModel"
             class="form-control mb-2"
           />
+
+          <!-- Error Messages -->
+          <div
+            *ngIf="teamSize.errors?.['required'] && teamSize.touched"
+            class="text-danger"
+          >
+            Team Size is required.
+          </div>
+          <div
+            *ngIf="teamSize.errors?.['min'] && teamSize.touched"
+            class="text-danger"
+          >
+            Team Size must be at least 1.
+          </div>
+
+          <!-- Client Location -->
+          <select
+            class="form-control mb-2"
+            [(ngModel)]="project.clientLocation.id"
+            name="clientLocation"
+            required
+            #clientLocation="ngModel"
+          >
+            <!-- Placeholder option -->
+            <option value="" disabled selected>Please select Location</option>
+
+            <!-- Dynamic options -->
+            <option
+              *ngFor="let location of clientLocations"
+              [value]="location.id"
+            >
+              {{ location.name }}
+            </option>
+          </select>
+          <!-- Error message -->
+          <div
+            *ngIf="clientLocation.invalid && clientLocation.touched"
+            class="text-danger"
+          >
+            Please select a location.
+          </div>
+
+          <!-- Project Status -->
+          <select
+            class="form-control mb-2"
+            [(ngModel)]="project.status"
+            name="status"
+            required
+            #status="ngModel"
+          >
+            <!-- Placeholder option -->
+            <option value="" disabled selected>Please select Status</option>
+
+            <!-- Dynamic options -->
+            <option
+              *ngFor="let projectStatus of projectStatuses"
+              [ngValue]="projectStatus"
+            >
+              {{ projectStatus }}
+            </option>
+          </select>
+
+          <!-- Error message -->
+          <div
+            *ngIf="status.errors?.['required'] && status.touched"
+            class="text-danger"
+          >
+            Please select a project status.
+          </div>
+          <div class="modal-footer">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="projectForm.invalid"
+            >
+              Save
+            </button>
+
+            <button class="btn btn-secondary" (click)="addModal.hide()">
+              Cancel
+            </button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-success" (click)="saveProject()">Save</button>
-        <button class="btn btn-secondary" (click)="addModal.hide()">
-          Cancel
-        </button>
       </div>
     </div>
   </div>
@@ -196,38 +308,111 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form>
-          <input
+        <form
+          #updateProjectForm="ngForm"
+          (ngSubmit)="updateProject(updateProjectForm)"
+        >
+          <!-- <input
             type="number"
             placeholder="ID"
             disabled="true"
             [(ngModel)]="editProject.id"
             name="id"
             class="form-control mb-2"
-          />
-          <input
+          /> -->
+          <!-- <input
             type="text"
             placeholder="Name"
             [(ngModel)]="editProject.name"
             name="name"
             class="form-control mb-2"
-          />
+          /> -->
           <input
+            type="text"
+            name="editeditProject"
+            [(ngModel)]="editProject.name"
+            required
+            minlength="3"
+            #editProjectName="ngModel"
+            placeholder="Name"
+            class="form-control mb-2"
+          />
+
+          <div
+            *ngIf="editProjectName.errors?.['required'] && editProjectName.touched"
+            class="text-danger"
+          >
+            Name is required.
+          </div>
+
+          <div
+            *ngIf="editProjectName.errors?.['minlength'] && editProjectName.touched"
+            class="text-danger"
+          >
+            Name must be at least 3 characters.
+          </div>
+
+          <!-- <input
             type="date"
             placeholder="Start Date"
             [(ngModel)]="editProject.dateOfStart"
             name="date"
             class="form-control mb-2"
+          /> -->
+          <!-- Start Date -->
+          <input
+            type="date"
+            placeholder="Start Date"
+            [(ngModel)]="editProject.dateOfStart"
+            name="editProjectDateOfStart"
+            required
+            #editProjectDate="ngModel"
+            class="form-control mb-2"
           />
+
+          <!-- Error Message -->
+          <div
+            *ngIf="editProjectDate.errors?.['required'] && editProjectDate.touched"
+            class="text-danger"
+          >
+            Start Date is required.
+          </div>
+
+          <!-- 
           <input
             type="number"
             placeholder="Team Size"
             [(ngModel)]="editProject.teamSize"
             name="size"
             class="form-control mb-2"
+          /> -->
+          <!-- Team Size -->
+          <input
+            type="number"
+            placeholder="Team Size"
+            [(ngModel)]="editProject.teamSize"
+            name="editProjectTeamSize"
+            required
+            min="1"
+            #editProjectTeamSize="ngModel"
+            class="form-control mb-2"
           />
 
-          <select
+          <!-- Error Messages -->
+          <div
+            *ngIf="editProjectTeamSize.errors?.['required'] && editProjectTeamSize.touched"
+            class="text-danger"
+          >
+            Team Size is required.
+          </div>
+          <div
+            *ngIf="editProjectTeamSize.errors?.['min'] && editProjectTeamSize.touched"
+            class="text-danger"
+          >
+            Team Size must be at least 1.
+          </div>
+
+          <!-- <select
             class="form-control mb-2"
             [(ngModel)]="editProject.clientLocation.id"
             name="client Location"
@@ -238,9 +423,41 @@
             >
               {{ location.name }}
             </option>
-          </select>
+          </select> -->
 
+          <!-- Client Location -->
           <select
+            class="form-control mb-2"
+            [(ngModel)]="editProject.clientLocation.id"
+            name="editProjectClientLocation"
+            required
+            #editProjectClientLocation="ngModel"
+          >
+            <!-- Placeholder option -->
+            <!-- <option value="undefined" disabled selected>
+              Please select Location
+            </option> -->
+
+            <!-- Dynamic options -->
+            <option
+              *ngFor="let location of clientLocations"
+              [value]="location.id"
+            >
+              {{ location.name }}
+            </option>
+          </select>
+          <!-- Error message -->
+          <div
+            *ngIf="
+              editProjectClientLocation.invalid &&
+              editProjectClientLocation.touched
+            "
+            class="text-danger"
+          >
+            Please select a location.
+          </div>
+
+          <!-- <select
             class="form-control mb-2"
             [(ngModel)]="editProject.status"
             [disabled]="editProject.status === 'Completed'"
@@ -252,16 +469,54 @@
             >
               {{ projectStatus }}
             </option>
+          </select> -->
+          <!-- Project Status -->
+          <select
+            class="form-control mb-2"
+            [(ngModel)]="editProject.status"
+            name="editProjectStatus"
+            required
+            #editProjectStatus="ngModel"
+          >
+            <!-- Placeholder option -->
+            <option value="" disabled selected>Please select Status</option>
+
+            <!-- Dynamic options -->
+            <option
+              *ngFor="let projectStatus of projectStatuses"
+              [ngValue]="projectStatus"
+            >
+              {{ projectStatus }}
+            </option>
           </select>
+
+          <!-- Error message -->
+          <div
+            *ngIf="editProjectStatus.errors?.['required'] && editProjectStatus.touched"
+            class="text-danger"
+          >
+            Please select a project status.
+          </div>
+          <div class="modal-footer">
+            <!-- <button class="btn btn-success" (click)="updateProject()">
+              Update
+            </button> -->
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="updateProjectForm.invalid"
+            >
+              Update
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="editModal.hide()"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-success" (click)="updateProject()">
-          Update
-        </button>
-        <button class="btn btn-secondary" (click)="editModal.hide()">
-          Cancel
-        </button>
       </div>
     </div>
   </div>

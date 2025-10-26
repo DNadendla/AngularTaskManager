@@ -105,6 +105,7 @@ import { Project } from '../../project';
 import { Modal } from 'bootstrap';
 import { ClientLocationService } from '../../client-location.service';
 import { ClientLocation } from '../../client-location';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-projects',
@@ -117,6 +118,7 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
   @ViewChild('addProjectModal') addModalRef!: ElementRef;
   @ViewChild('editProjectModal') editModalRef!: ElementRef;
   @ViewChild('deleteProjectModal') deleteModalRef!: ElementRef;
+  @ViewChild('projectForm') projectForm!: NgForm;
 
   /* @ViewChild('myModal') modalRef!: ElementRef;
   private modalInstance!: Modal; */
@@ -190,17 +192,32 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
   // ------------------- Add Project -------------------
   openAddModal() {
     this.project = new Project();
+    if (this.projectForm) {
+      this.projectForm.resetForm({
+        clientLocation: '',
+        status: '', // dropdown default
+        teamSize: null,
+        name: '',
+        dateOfStart: '',
+      });
+    }
     this.addModal.show();
   }
 
-  saveProject() {
-    this.projectService
-      .insertProject(this.project)
-      .subscribe((data: Project) => {
-        this.projects.push(data);
-        this.project = new Project();
-        this.addModal.hide(); // safely hide modal
-      });
+  saveProject(form: NgForm): void {
+    debugger;
+    if (form.valid) {
+      this.projectService
+        .insertProject(this.project)
+        .subscribe((data: Project) => {
+          this.projects.push(data);
+          this.project = new Project();
+          this.addModal.hide(); // safely hide modal
+          form.resetForm();
+        });
+    } else {
+      form.control.markAllAsTouched(); // highlight all invalid fields
+    }
   }
 
   // ------------------- Edit Project -------------------
@@ -210,15 +227,20 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
     this.editModal.show();
   }
 
-  updateProject() {
+  updateProject(form: NgForm): void {
     if (this.editIndex === null) return;
-    this.projectService
-      .updateProject(this.editProject)
-      .subscribe((data: Project) => {
-        this.projects[this.editIndex!] = { ...data };
-        this.editIndex = null;
-        this.editModal.hide(); // safely hide modal
-      });
+    debugger;
+    if (form.valid) {
+      this.projectService
+        .updateProject(this.editProject)
+        .subscribe((data: Project) => {
+          this.projects[this.editIndex!] = { ...data };
+          this.editIndex = null;
+          this.editModal.hide(); // safely hide modal
+        });
+    } else {
+      form.control.markAllAsTouched(); // highlight all invalid fields
+    }
   }
 
   // ------------------- Delete Project -------------------

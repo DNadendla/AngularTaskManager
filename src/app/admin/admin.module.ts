@@ -6,6 +6,7 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { DashboardService } from '../dashboard.service';
 import { ProjectsComponent } from './projects/projects.component';
 import { FormsModule } from '@angular/forms';
+import { ProjectNameValidatorDirective } from './project-name-validator.directive';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { FormsModule } from '@angular/forms';
     AboutComponent,
     MyProfileComponent,
     ProjectsComponent,
+    ProjectNameValidatorDirective,
 
     // ParentComponent,
     // ChildComponent,
