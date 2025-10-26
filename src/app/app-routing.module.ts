@@ -13,12 +13,14 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboradComponent,
     canActivate: [CanActivateGuardService],
+    data: { expectedRoles: ['ADMIN', 'USER'] },
   },
   { path: 'about', component: AboutComponent },
   {
     path: 'projects',
     component: ProjectsComponent,
     canActivate: [CanActivateGuardService],
+    data: { expectedRoles: ['ADMIN', 'USER'] },
   },
 ];
 

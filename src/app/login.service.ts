@@ -9,7 +9,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root',
 })
 export class LoginService {
-  private baseUrl = 'http://localhost:8081/api';
+  private baseUrl = 'http://localhost:8081/api/auth';
   private tokenKey = 'jwtToken';
   currentUsername: string = '';
 
@@ -44,6 +44,12 @@ export class LoginService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getLoggedInUserRoles(): string[] {
+    return this.jwtHelperService.decodeToken(
+      this.getToken() ? this.getToken()! : ''
+    ).roles;
   }
 
   logout(): void {
