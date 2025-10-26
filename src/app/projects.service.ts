@@ -24,10 +24,7 @@ export class ProjectsService {
   }
 
   updateProject(project: Project): Observable<Project> {
-    return this.httpClint.put<Project>(
-      `${this.baseUrl}/project/${project.projectID}`,
-      project
-    );
+    return this.httpClint.put<Project>(`${this.baseUrl}/project`, project);
   }
 
   deleteProject(projectID: number): Observable<void> {

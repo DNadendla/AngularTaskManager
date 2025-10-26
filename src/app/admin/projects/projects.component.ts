@@ -103,6 +103,8 @@ import {
 import { ProjectsService } from '../../projects.service';
 import { Project } from '../../project';
 import { Modal } from 'bootstrap';
+import { ClientLocationService } from '../../client-location.service';
+import { ClientLocation } from '../../client-location';
 
 @Component({
   selector: 'app-projects',
@@ -126,6 +128,7 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 
   // ------------------- Project data -------------------
   projects: Project[] = [];
+  clientLocations: ClientLocation[] = [];
   project: Project = new Project();
   editProject: Project = new Project();
   editIndex: number | null = null;
@@ -133,11 +136,23 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
   deleteIndex: number | null = null;
   searchBy: string = '';
   searchText: string = '';
+  showLoader: boolean = true;
+  projectStatuses: string[] = [
+    'Maintenance',
+    'In Progress',
+    'Completed',
+    'Paused',
+  ];
 
-  constructor(private projectService: ProjectsService) {}
+  constructor(
+    private projectService: ProjectsService,
+    private clientLocationService: ClientLocationService
+  ) {}
 
   ngOnInit(): void {
     this.loadProjects();
+    this.loadClientLocations();
+    this.showLoader = false;
   }
 
   /*   openModal() {
@@ -154,6 +169,15 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
     this.editModal = new Modal(this.editModalRef.nativeElement);
     this.deleteModal = new Modal(this.deleteModalRef.nativeElement);
     // this.modalInstance = new Modal(this.modalRef.nativeElement);
+  }
+
+  // ------------------- Load ClientLocations -------------------
+  loadClientLocations() {
+    this.clientLocationService
+      .getClientLocations()
+      .subscribe((data: ClientLocation[]) => {
+        this.clientLocations = data;
+      });
   }
 
   // ------------------- Load Projects -------------------
@@ -206,14 +230,12 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
 
   deleteProjectConfirm() {
     if (this.deleteIndex === null) return;
-    this.projectService
-      .deleteProject(this.deleteProject.projectID)
-      .subscribe(() => {
-        this.projects.splice(this.deleteIndex!, 1);
-        this.deleteIndex = null;
-        this.deleteProject = new Project();
-        this.deleteModal.hide(); // safely hide modal
-      });
+    this.projectService.deleteProject(this.deleteProject.id).subscribe(() => {
+      this.projects.splice(this.deleteIndex!, 1);
+      this.deleteIndex = null;
+      this.deleteProject = new Project();
+      this.deleteModal.hide(); // safely hide modal
+    });
   }
 
   // ------------------- Search Project -------------------

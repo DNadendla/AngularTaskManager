@@ -57,6 +57,14 @@
   Add Project
 </button>
 
+<!-- Loader Overlay with Message -->
+<div class="loader-overlay" *ngIf="showLoader">
+  <div class="loader-content">
+    <div class="spinner"></div>
+    <p class="loader-message">Please wait...</p>
+  </div>
+</div>
+
 <!-- Projects Table -->
 <table class="table table-bordered">
   <thead>
@@ -65,15 +73,19 @@
       <th>Name</th>
       <th>Start Date</th>
       <th>Team Size</th>
+      <th>Client Location</th>
+      <th>Status</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let project of projects; let i = index">
-      <td>{{ project.projectID }}</td>
-      <td>{{ project.projectName }}</td>
+      <td>{{ project.id }}</td>
+      <td>{{ project.name }}</td>
       <td>{{ project.dateOfStart | date : "mediumDate" }}</td>
       <td>{{ project.teamSize }}</td>
+      <td>{{ project.clientLocation.name }}</td>
+      <td>{{ project.status }}</td>
       <td>
         <div class="d-flex justify-content-right gap-2">
           <button class="btn btn-sm btn-warning" (click)="openEditModal(i)">
@@ -134,14 +146,14 @@
           <input
             type="number"
             placeholder="ID"
-            [(ngModel)]="project.projectID"
+            [(ngModel)]="project.id"
             name="id"
             class="form-control mb-2"
           />
           <input
             type="text"
             placeholder="Name"
-            [(ngModel)]="project.projectName"
+            [(ngModel)]="project.name"
             name="name"
             class="form-control mb-2"
           />
@@ -188,14 +200,15 @@
           <input
             type="number"
             placeholder="ID"
-            [(ngModel)]="editProject.projectID"
+            disabled="true"
+            [(ngModel)]="editProject.id"
             name="id"
             class="form-control mb-2"
           />
           <input
             type="text"
             placeholder="Name"
-            [(ngModel)]="editProject.projectName"
+            [(ngModel)]="editProject.name"
             name="name"
             class="form-control mb-2"
           />
@@ -213,6 +226,33 @@
             name="size"
             class="form-control mb-2"
           />
+
+          <select
+            class="form-control mb-2"
+            [(ngModel)]="editProject.clientLocation.id"
+            name="client Location"
+          >
+            <option
+              *ngFor="let location of clientLocations"
+              [ngValue]="location.id"
+            >
+              {{ location.name }}
+            </option>
+          </select>
+
+          <select
+            class="form-control mb-2"
+            [(ngModel)]="editProject.status"
+            [disabled]="editProject.status === 'Completed'"
+            name="Project Status"
+          >
+            <option
+              *ngFor="let projectStatus of projectStatuses"
+              [ngValue]="projectStatus"
+            >
+              {{ projectStatus }}
+            </option>
+          </select>
         </form>
       </div>
       <div class="modal-footer">
@@ -240,9 +280,7 @@
         ></button>
       </div>
       <div class="modal-body">
-        Are you sure you want to delete project "{{
-          deleteProject.projectName
-        }}"?
+        Are you sure you want to delete project "{{ deleteProject.name }}"?
       </div>
       <div class="modal-footer">
         <button class="btn btn-danger" (click)="deleteProjectConfirm()">
