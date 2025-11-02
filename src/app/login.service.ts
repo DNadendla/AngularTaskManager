@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginViewModel } from './login-view-model';
+import { User } from './user';
 import { map, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -21,7 +21,7 @@ export class LoginService {
     this.currentUsername = localStorage.getItem('currentUsername') || '';
   }
 
-  login(loginViewModel: LoginViewModel): Observable<any> {
+  login(loginViewModel: User): Observable<any> {
     /* return this.httpClient
       .post('http://localhost:8081/api/login', loginViewModel)
       .pipe(

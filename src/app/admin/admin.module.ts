@@ -5,7 +5,7 @@ import { AboutComponent } from './about/about.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { DashboardService } from '../dashboard.service';
 import { ProjectsComponent } from './projects/projects.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProjectNameValidatorDirective } from './project-name-validator.directive';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { ProjectNameValidatorDirective } from './project-name-validator.directiv
     // ParentComponent,
     // ChildComponent,
   ],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   exports: [
     DashboradComponent,
     AboutComponent,

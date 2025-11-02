@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginViewModel } from '../login-view-model';
+import { User } from '../user';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-  loginViewModel: LoginViewModel = new LoginViewModel();
+  loginViewModel: User = new User();
   loginError: string = '';
 
   constructor(private loginService: LoginService, private router: Router) {}

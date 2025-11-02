@@ -10,10 +10,7 @@ import { LoginService } from './login.service';
 export class ProjectsService {
   private baseUrl = 'http://localhost:8081/api'; // change if backend URL differs
 
-  constructor(
-    private httpClint: HttpClient,
-    private loginService: LoginService
-  ) {}
+  constructor(private httpClint: HttpClient) {}
 
   getAllProjects(): Observable<Project[]> {
     return this.httpClint.get<Project[]>(`${this.baseUrl}/project`);
