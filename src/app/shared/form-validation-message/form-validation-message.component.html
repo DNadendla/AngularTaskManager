@@ -1,0 +1,22 @@
+<!-- Handles all form control or field level validations -->
+<div *ngIf="errorMessage" class="invalid-feedback d-block mt-1">
+  {{ errorMessage }}
+</div>
+
+<!-- Handles Password mismatch -->
+<div *ngIf="passwordMismatch" class="invalid-feedback d-block mt-1">
+  {{ passwordMismatch }}
+</div>
+
+<!-- Async loading indicator -->
+<div
+  *ngIf="controlName === 'email' && control?.pending"
+  class="d-flex align-items-center text-primary small mt-1"
+>
+  <div
+    class="spinner-border spinner-border-sm me-2"
+    role="status"
+    aria-hidden="true"
+  ></div>
+  Checking email availability...
+</div>

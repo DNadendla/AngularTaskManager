@@ -29,11 +29,25 @@
                   }"
                 />
 
-                <!-- Reusable validation message component -->
-                <app-form-validation-message
-                  [control]="userForm.get('username')"
-                  controlName="username"
-                ></app-form-validation-message>
+                <!-- Validation Messages -->
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    userForm.get('username')?.errors &&
+                    (userForm.get('username')?.touched ||
+                      userForm.get('username')?.dirty)
+                  "
+                >
+                  <div *ngIf="userForm.get('username')?.errors?.['required']">
+                    Username is required.
+                  </div>
+                  <div *ngIf="userForm.get('username')?.errors?.['minlength']">
+                    Username must be at least 3 characters long.
+                  </div>
+                  <div *ngIf="userForm.get('username')?.errors?.['pattern']">
+                    Only alphabets and spaces are allowed.
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -57,26 +71,57 @@
                   }"
                 />
 
-                <!-- Reusable validation component -->
-                <app-form-validation-message
-                  [control]="userForm.get('email')"
-                  controlName="email"
-                ></app-form-validation-message>
+                <!-- Validation & Async Messages -->
+                <div
+                  class="invalid-feedback d-block mt-1"
+                  *ngIf="
+                    userForm.get('email')?.invalid &&
+                    (userForm.get('email')?.touched ||
+                      userForm.get('email')?.dirty)
+                  "
+                >
+                  <!-- Required -->
+                  <div *ngIf="userForm.get('email')?.errors?.['required']">
+                    Email is required.
+                  </div>
+
+                  <!-- Invalid format -->
+                  <div *ngIf="userForm.get('email')?.errors?.['email']">
+                    Invalid email format.
+                  </div>
+
+                  <!-- Async validation error -->
+                  <div *ngIf="userForm.get('email')?.errors?.['emailTaken']">
+                    This email is already registered.
+                  </div>
+                </div>
+
+                <!-- Async validation loading spinner -->
+                <div
+                  *ngIf="userForm.get('email')?.pending"
+                  class="d-flex align-items-center text-primary small mt-1"
+                >
+                  <div
+                    class="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true"
+                  ></div>
+                  Checking email availability...
+                </div>
               </div>
             </div>
 
             <!-- Phone -->
             <div class="mb-3 row">
-              <label for="phone" class="col-sm-4 col-form-label">
-                Phone Number
-              </label>
-
+              <label for="phone" class="col-sm-4 col-form-label"
+                >Phone Number</label
+              >
               <div class="col-sm-8">
                 <input
                   type="tel"
-                  id="phone"
                   formControlName="phone"
                   class="form-control"
+                  id="phone"
                   placeholder="Enter phone number"
                   [ngClass]="{
                     'is-invalid':
@@ -86,11 +131,22 @@
                   }"
                 />
 
-                <!-- Reusable Validation Component -->
-                <app-form-validation-message
-                  [control]="userForm.get('phone')"
-                  controlName="phone"
-                ></app-form-validation-message>
+                <!-- Validation Messages -->
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    userForm.get('phone')?.errors &&
+                    (userForm.get('phone')?.touched ||
+                      userForm.get('phone')?.dirty)
+                  "
+                >
+                  <div *ngIf="userForm.get('phone')?.errors?.['required']">
+                    Phone number is required.
+                  </div>
+                  <div *ngIf="userForm.get('phone')?.errors?.['pattern']">
+                    Enter a valid 10-digit phone number starting with 6–9.
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -104,27 +160,14 @@
                   class="d-flex align-items-center mb-2"
                   *ngFor="let skill of skills.controls; let i = index"
                 >
-                  <div class="flex-grow-1">
-                    <input
-                      [formControlName]="i"
-                      class="form-control me-2"
-                      placeholder="Enter skill"
-                      [ngClass]="{
-                        'is-invalid':
-                          skill.invalid && (skill.touched || skill.dirty)
-                      }"
-                    />
-
-                    <!-- Reusable validation component -->
-                    <app-form-validation-message
-                      [control]="skill"
-                      controlName="skill"
-                    ></app-form-validation-message>
-                  </div>
-
+                  <input
+                    [formControlName]="i"
+                    class="form-control me-2"
+                    placeholder="Enter skill"
+                  />
                   <button
                     type="button"
-                    class="btn btn-outline-danger btn-sm ms-2"
+                    class="btn btn-outline-danger btn-sm"
                     (click)="removeSkill(i)"
                     title="Remove Skill"
                   >
@@ -144,11 +187,48 @@
               </div>
             </div>
 
+            <!-- PWD -->
+            <!-- <div class="mb-3 row">
+              <label for="password" class="col-sm-4 col-form-label"
+                >Password</label
+              >
+              <div class="col-sm-8">
+                <input
+                  type="password"
+                  formControlName="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="Enter password"
+                />
+
+                <div
+                  *ngIf="
+                    userForm.get('password')?.touched &&
+                    userForm.get('password')?.invalid
+                  "
+                  class="text-danger mt-1"
+                >
+                  <small *ngIf="userForm.get('password')?.errors?.['required']">
+                    Password is required.
+                  </small>
+                  <small
+                    *ngIf="userForm.get('password')?.errors?.['minlength']"
+                  >
+                    Password must be at least 8 characters long.
+                  </small>
+                  <small *ngIf="userForm.get('password')?.errors?.['pattern']">
+                    Must include 1 uppercase, 1 number, and 1 special character.
+                  </small>
+                </div>
+              </div>
+            </div> -->
+
             <!-- Password -->
             <div class="mb-3 row">
               <label for="password" class="col-sm-4 col-form-label"
                 >Password</label
               >
+
               <div class="col-sm-8">
                 <input
                   type="password"
@@ -164,11 +244,19 @@
                   }"
                 />
 
-                <!-- Reusable Validation Component -->
-                <app-form-validation-message
-                  [control]="userForm.get('password')"
-                  controlName="password"
-                ></app-form-validation-message>
+                <!-- Validation Messages -->
+                <div class="invalid-feedback">
+                  <div *ngIf="userForm.get('password')?.hasError('required')">
+                    Password is required.
+                  </div>
+                  <div *ngIf="userForm.get('password')?.hasError('minlength')">
+                    Password must be at least 8 characters long.
+                  </div>
+                  <div *ngIf="userForm.get('password')?.hasError('pattern')">
+                    Must include one uppercase letter, one number, and one
+                    special character.
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -195,12 +283,24 @@
                   }"
                 />
 
-                <!-- Reusable Validation Component -->
-                <app-form-validation-message
-                  [control]="userForm.get('confirmPassword')"
-                  [formGroup]="userForm"
-                  controlName="confirmPassword"
-                ></app-form-validation-message>
+                <!-- Validation Messages -->
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                      userForm.get('confirmPassword')?.hasError('required')
+                    "
+                  >
+                    Confirm Password is required.
+                  </div>
+                  <div
+                    *ngIf="
+                      userForm.hasError('passwordMismatch') &&
+                      userForm.get('confirmPassword')?.touched
+                    "
+                  >
+                    Passwords do not match.
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -217,11 +317,6 @@
                   <label class="form-check-label" for="terms"
                     >I agree to the terms and conditions</label
                   >
-                  <!-- Reusable Validation Component -->
-                  <app-form-validation-message
-                    [control]="userForm.get('terms')"
-                    controlName="terms"
-                  ></app-form-validation-message>
                 </div>
               </div>
             </div>

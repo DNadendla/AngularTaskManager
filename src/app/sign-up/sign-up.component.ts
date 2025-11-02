@@ -28,15 +28,25 @@ export class SignUpComponent {
   ) {
     this.userForm = this.fb.group(
       {
-        // name: ['', Validators.required],
+        /* username: ['', Validators.required],
+         email: [
+          '',
+          [Validators.required, Validators.email],
+          [this.emailValidator.validate.bind(this.emailValidator)],
+        ],
+        password: ['', Validators.required],
+        phone: ['', Validators.required]*/
+
         username: [
           '',
           [
             Validators.required,
             Validators.minLength(3),
+            // Validators.maxLength(5),
             Validators.pattern('^[a-zA-Z ]+$'),
           ],
         ],
+
         phone: [
           '',
           [
@@ -45,39 +55,46 @@ export class SignUpComponent {
           ],
         ],
 
-        // password: ['', Validators.required],
         password: [
           '',
           [
             Validators.required,
-            Validators.minLength(8),
-            Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/),
+            /* Validators.minLength(8),
+            Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/), */
           ],
         ],
+
         confirmPassword: ['', Validators.required],
-        // phone: ['', Validators.required],
+
         terms: ['', Validators.requiredTrue],
-        /* email: [
-          '',
-          [Validators.required, Validators.email],
-          [this.emailValidator.validate.bind(this.emailValidator)],
-        ], */
+
         email: [
           '',
           [Validators.required, Validators.email],
           [this.emailValidator.validate.bind(this.emailValidator)],
         ],
 
-        skills: this.fb.array([this.createSkillControl()]), // Initialize with one default skill
+        // skills: this.fb.array([this.createSkillControl()]), // Initialize with one default skill
+        skills: this.fb.array([this.createSkillControl()]),
       },
       { validators: this.passwordMatchValidator }
     );
   }
 
-  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+  /* passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
 
+    if (password && confirmPassword && password !== confirmPassword) {
+      return { passwordMismatch: true };
+    }
+    return null;
+  } */
+
+  passwordMatchValidator(formGroup: FormGroup) {
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    // return password === confirmPassword ? null : { passwordMismatch: true };
     if (password && confirmPassword && password !== confirmPassword) {
       return { passwordMismatch: true };
     }
@@ -87,7 +104,12 @@ export class SignUpComponent {
   // Helper to create a skill control
   createSkillControl(): FormControl {
     // return this.fb.control('', Validators.required);
-    return this.fb.control('');
+    // return this.fb.control('');
+    return this.fb.control('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.pattern('^[a-zA-Z0-9 ]+$'),
+    ]);
   }
 
   // Getter for easy access in template
@@ -104,14 +126,6 @@ export class SignUpComponent {
   removeSkill(index: number): void {
     this.skills.removeAt(index);
   }
-
-  // Submit
-  /* onSubmit(): void {
-    this.userService.addUser(this.userForm.value).subscribe((response) => {
-      console.log('User added successfully:', response);
-    });
-    console.log(this.userForm.value);
-  } */
 
   onSubmit(): void {
     // 1️⃣ Mark all fields as touched to trigger validation messages

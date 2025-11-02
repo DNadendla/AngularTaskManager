@@ -12,6 +12,7 @@ import { JWTInterceptorService } from './jwtinterceptor.service';
 import { JWTUnauthorizedInterceptorService } from './jwtunauthorized-interceptor.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { FormValidationMessageComponent } from './shared/form-validation-message/form-validation-message.component';
 // import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     LoginComponent,
     HeaderComponent,
     SignUpComponent,
+    FormValidationMessageComponent,
   ],
   imports: [
     BrowserModule,
